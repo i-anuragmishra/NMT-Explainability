@@ -1,109 +1,124 @@
 # Advancing Explainability in Neural Machine Translation
 
-**Name:** Anurag Mishra  
-**Course Name:** NLP-1  
+[![arXiv](https://img.shields.io/badge/arXiv-2412.XXXXX-b31b1b.svg)](https://arxiv.org/abs/2412.XXXXX)
 
----
+This repository contains the implementation code and experimental analysis for the paper "Advancing Explainability in Neural Machine Translation: Analytical Metrics for Attention and Alignment Consistency".
 
-## Overview
+## Abstract
 
-This project focuses on developing an explainable Neural Machine Translation (NMT) model that evaluates attention patterns and correlates them with translation quality metrics. The project leverages large-scale pre-trained models, statistical alignments, and attention metrics for deeper insights into translation mechanisms.
+This research introduces a systematic framework to quantitatively evaluate the explainability of Neural Machine Translation (NMT) models' attention patterns by comparing them against statistical alignments and correlating them with standard machine translation quality metrics. We present novel metrics—attention entropy and alignment agreement—and validate them on an English-German test subset from WMT14 using a pre-trained mT5 model.
 
-Due to the model's size and training requirements, this project must be executed on **Research Computing (RC)** services and **not on Narnia**. Additionally, the final model folder is not included in the submission due to file size limitations. Instead, a pre-trained model can be downloaded using the Google Drive link provided below.
+Key findings:
+- Models with larger capacity produce more focused attention patterns
+- Lower attention entropy correlates with higher alignment agreement
+- Translation quality metrics (BLEU, METEOR) show positive correlation with interpretability measures
+- T5-Large achieves BLEU: 19.6, METEOR: 0.346 with lowest average entropy of 0.273
 
----
+## Implementation Details
 
-## Files Provided
+### Model and Dataset Access
 
-1. **`train.py`**  
-   This script trains the model from scratch.  
-   - **Note:** Training takes over a month (30+ days) on large datasets and is not intended to be executed as part of this submission.  
-   - **Input:** Downloads and uses the required dataset automatically.  
-   - **Output:** Trained model checkpoints (not included in the submission).  
+- **Pre-trained Model Download:**  
+  ```bash
+  pip install gdown
+  gdown "https://drive.google.com/uc?id=19gXkvi4IP68M_d8jTFgEW8fHLsK_jr2w" -O model.zip
+  unzip model.zip
+  ```
 
-2. **`test.py`**  
-   This script tests the trained model on a large dataset.  
-   - **Note:** It evaluates the model’s performance but does not generate visualizations and may take significant time to complete.  
-   - **Input:** Downloads the dataset and requires the trained model file.  
-   - **Output:** Evaluation metrics such as BLEU and METEOR scores.  
-
-3. **`demo.py`**  
-   This script tests the pre-trained model on a smaller dataset and provides visualizations.  
-   - **Purpose:** Quickly demonstrates the model’s capabilities, including BLEU and METEOR scores, along with detailed visualizations.  
-   - **Input:** Pre-trained model downloaded via the Google Drive link and dataset (downloaded automatically).  
-   - **Output:** Visualizations and performance metrics.  
-   - **Recommended:** This is the file to run for most users.  
-
-4. **`requirements.txt`**  
-   Contains the list of dependencies required to set up the Python environment.
-
-5. **`fastalign/`**  
-   A folder containing the `fastalign` alignment tool necessary for all scripts. Ensure this folder is present in the project directory when running any script.
-
----
-
-## Model and Dataset Information
-
-### Pre-trained Model
-- **Download Link:** [https://drive.google.com/file/d/19gXkvi4IP68M_d8jTFgEW8fHLsK_jr2w/view?usp=sharing]  
-- **Command to Download:**  
-   If you have `gdown` installed (recommended):  
-   ```bash
-   pip install gdown
-   gdown "https://drive.google.com/uc?id=19gXkvi4IP68M_d8jTFgEW8fHLsK_jr2w" -O model.zip
-   unzip model.zip
-
-### Dataset
-- **Note:** The dataset is **not included** in the submission. Instead, the scripts automatically download the required datasets during execution. Ensure an active internet connection for seamless downloading.
-
----
+### Project Structure
+```
+├── src/
+│   ├── train.py           # Training script (30+ days runtime)
+│   ├── test.py           # Full evaluation script
+│   ├── demo.py           # Quick demonstration script
+│   ├── attention/        # Attention analysis tools
+│   │   ├── entropy.py   
+│   │   └── alignment.py 
+│   └── evaluation/      # Evaluation metrics
+├── fastalign/           # FastAlign tool for alignments
+├── experiments/        # Experimental notebooks
+└── results/           # Analysis results and figures
+```
 
 ## Setup Instructions
 
-1. Install required Python libraries using `requirements.txt`:
-   ```bash
-   pip install -r requirements.txt
-   ```
+1. Install dependencies:
+```bash
+pip install -r requirements.txt
+```
 
-2. Ensure the `fastalign` folder is present in the project directory.
+2. Download the pre-trained model using the command provided above.
 
-3. Download the pre-trained model using the provided command and place it in the project directory.
+3. Ensure the `fastalign` folder is present in the project directory.
 
----
+## Execution Options
 
-## Execution Instructions
+1. **Demo Script (Recommended):**
+```bash
+python demo.py
+```
+- Provides quick visualization of attention patterns
+- Calculates BLEU and METEOR scores
+- Generates attention heatmaps
 
-### To Train the Model
-- **File:** `train.py`  
-- **Command:**
-   ```bash
-   python train.py
-   ```
-- **Note:** Training takes more than 30 days and requires significant computational resources. This is not intended for execution as part of the submission.
+2. **Full Evaluation:**
+```bash
+python test.py
+```
+- Complete evaluation on large test set
+- Comprehensive metric calculation
 
-### To Test the Model
-- **File:** `test.py`  
-- **Command:**
-   ```bash
-   python test.py
-   ```
-- **Note:** Testing on a large dataset will take considerable time. Visualization is not generated in this script.
+3. **Training (Not Recommended):**
+```bash
+python train.py
+```
+- Full model training (~30 days runtime)
+- Requires significant computational resources
 
-### To Run the Demo
-- **File:** `demo.py`  
-- **Command:**
-   ```bash
-   python demo.py
-   ```
-- **Recommended:** This script demonstrates the model’s capabilities, generates visualizations, and evaluates translation performance.
+## Research Components
 
----
+1. **Attention Analysis Tools**
+   - Attention entropy calculation
+   - Alignment agreement metrics
+   - Statistical alignment comparison
+
+2. **Evaluation Framework**
+   - Multiple T5 model variants comparison
+   - Translation quality assessment
+   - Attention pattern analysis
+
+3. **Visualization Suite**
+   - Attention heatmaps
+   - Correlation plots
+   - Normalized attention matrices
 
 ## Important Notes
 
-- **Execution Environment:** This project is designed to run on Research Computing (RC) services. It is incompatible with Narnia due to resource limitations.  
-- **Model Size:** The pre-trained model exceeds the submission size limit (2GB) and must be downloaded separately via the Google Drive link provided above.  
-- **Dataset:** All scripts automatically download the necessary datasets; no external dataset submission is required.  
-- **Dependencies:** Ensure `fastalign` is available in the project directory as it is used for alignment calculations.
+- This project requires Research Computing (RC) services
+- Not compatible with Narnia due to resource limitations
+- Model size exceeds 2GB (download separately)
+- Datasets are downloaded automatically during execution
 
----
+## Citation
+
+If you find this work useful in your research, please cite:
+
+```bibtex
+@article{mishra2024advancing,
+  title={Advancing Explainability in Neural Machine Translation: Analytical Metrics for Attention and Alignment Consistency},
+  author={Mishra, Anurag},
+  journal={arXiv preprint arXiv:2412.XXXXX},
+  year={2024}
+}
+```
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Author
+
+Anurag Mishra  
+School of Information  
+Rochester Institute of Technology  
+am2552@rit.edu
