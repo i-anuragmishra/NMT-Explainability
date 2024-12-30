@@ -1,6 +1,6 @@
 # Advancing Explainability in Neural Machine Translation
 
-[![arXiv](https://img.shields.io/badge/arXiv-2412.XXXXX-b31b1b.svg)](https://arxiv.org/abs/2412.XXXXX)
+[![arXiv](https://img.shields.io/badge/arXiv-2412.XXXXX-b31b1b.svg)](http://arxiv.org/abs/2412.18669)
 
 This repository contains the implementation code and experimental analysis for the paper "Advancing Explainability in Neural Machine Translation: Analytical Metrics for Attention and Alignment Consistency".
 
